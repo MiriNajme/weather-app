@@ -1,0 +1,167 @@
+body {
+  padding-top: 30px;
+}
+.input-group {
+  /* display: block; */
+  margin-right: 20px;
+}
+.card {
+  padding: 30px 50px;
+  max-width: 80%;
+  margin: 0 auto;
+}
+.container {
+  display: block;
+  margin: 0 auto;
+}
+form {
+  margin: 0 50px;
+}
+/* h1 {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: flex-start;
+} */
+.snow {
+  width: 100px;
+  position: relative;
+  top: 20px;
+  left: 60px;
+}
+.high-low-temp {
+  text-align: left;
+  font-size: 28px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-flow: column;
+}
+
+.form-control {
+  padding-left: 10px;
+}
+hr {
+  border-color: black;
+}
+.weather-icon {
+  font-size: 48px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  color: #b2ebf2;
+  flex-flow: column;
+  width: fit-content;
+}
+.weather-icon span {
+  font-size: 14px;
+  color: black;
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+  text-transform: capitalize;
+}
+.fa-temperature-high {
+  color: red;
+}
+.fa-temperature-low {
+  color: #26c6da;
+}
+.low-degree {
+  color: black;
+}
+.low-temp,
+.high-temp {
+  display: flex;
+  align-items: center;
+  width: 80px;
+  justify-content: space-between;
+}
+
+.degree {
+  align-self: flex-start;
+  font-size: 13px;
+  /* margin-top: -4px; */
+}
+.city {
+  padding-left: 40px;
+}
+.city h1 {
+  margin-bottom: 2px;
+}
+.city h1 small {
+  position: absolute;
+  top: 3px;
+}
+.predict h4 {
+  text-transform: uppercase;
+}
+.forcast-container {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 5px;
+}
+.forcast {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0px;
+  width: 100%;
+}
+.forcast-day {
+  text-transform: uppercase;
+}
+.forcast-degree {
+  position: relative;
+  padding-right: 4px;
+  margin: 0 5px;
+}
+.forcast-degree::after {
+  font-size: 8px;
+  position: absolute;
+  top: 0px;
+  right: -2px;
+  content: "o";
+}
+.predict-bar {
+  display: flex;
+  align-items: center;
+}
+.forcast-bar {
+  width: 70%;
+  height: 4px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgb(137, 192, 254);
+  background: linear-gradient(
+    90deg,
+    rgba(137, 192, 254, 1) 0%,
+    rgba(104, 253, 139, 1) 29%,
+    rgba(249, 221, 52, 1) 62%,
+    rgba(253, 72, 17, 1) 84%,
+    rgba(172, 0, 0, 1) 100%
+  );
+  position: relative;
+}
+.forcast-bar div {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: dimgray;
+}
+
+#celsius,
+#fahrenheit {
+  text-decoration: none;
+}
+#current-degree {
+  width: 60px;
+  text-align: center;
+  display: inline-block;
+}
+#city {
+  text-transform: capitalize;
+}

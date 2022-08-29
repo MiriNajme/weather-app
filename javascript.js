@@ -1,0 +1,122 @@
+let now = new Date();
+let days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+let time = document.querySelector("#current-time");
+let day = days[now.getDay()];
+let hour = now.getHours().toString().padStart(2, "0");
+let minute = now.getMinutes().toString().padStart(2, "0");
+
+time.innerHTML = `${day} ${hour}:${minute}`;
+
+// Searching for a city
+function showCity(event) {
+  event.preventDefault();
+  let searchText = document.querySelector("#search-text");
+  let city = document.querySelector("#city");
+
+  if (searchText.value) {
+    city.innerHTML = searchText.value;
+
+    //degree.innerHTML = Math.floor(Math.random() * (20 - -10 + 1)) + -10;
+    let apiKey = "8b5dee79ecf0c909b3e67b3b6230efa2";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${searchText.value}&units=metric&APPID=${apiKey}`;
+    axios.get(apiUrl).then(showTemp);
+  }
+}
+function showTemp(response) {
+  let temperature = Math.round(response.data.main.temp);
+  let degree = document.querySelector("#current-degree");
+  degree.innerHTML = temperature;
+  //console.log(response);
+  lowDegree.innerHTML = Math.round(response.data.main.temp_min);
+  highDegree.innerHTML = Math.round(response.data.main.temp_max);
+  if (flag !== "celsius") {
+    flag = "celsius";
+    toFahrenheit();
+  }
+}
+let lowDegree = document.querySelector("span.low-degree");
+let highDegree = document.querySelector("span.high-degree");
+let form = document.querySelector("#weather-form");
+form.addEventListener("submit", showCity);
+
+//Changing Celsius to Fahrenheit and viceversa
+
+function toFahrenheit(event) {
+  if (!!event) {
+    event.preventDefault();
+  }
+
+  if (flag !== "far") {
+    currentDegree.innerHTML = Math.round(currentDegree.innerHTML * 1.8 + 32);
+    lowDegree.innerHTML = Math.round(lowDegree.innerHTML * 1.8 + 32);
+    highDegree.innerHTML = Math.round(highDegree.innerHTML * 1.8 + 32);
+    flag = "far";
+    flagChanged();
+  }
+}
+function toCelsius(event) {
+  if (!!event) {
+    event.preventDefault();
+  }
+
+  if (flag !== "celsius") {
+    currentDegree.innerHTML = Math.round(
+      ((currentDegree.innerHTML - 32) * 5) / 9
+    );
+    lowDegree.innerHTML = Math.round(((lowDegree.innerHTML - 32) * 5) / 9);
+    highDegree.innerHTML = Math.round(((highDegree.innerHTML - 32) * 5) / 9);
+    flag = "celsius";
+    flagChanged();
+  }
+}
+let celsius = document.querySelector("#celsius");
+celsius.addEventListener("click", toCelsius);
+let fahrenheit = document.querySelector("#fahrenheit");
+fahrenheit.addEventListener("click", toFahrenheit);
+let currentDegree = document.querySelector("#current-degree");
+let flag = "celsius";
+flagChanged();
+
+function flagChanged() {
+  if (flag === "celsius") {
+    celsius.style.color = "darkgray";
+    celsius.style.cursor = "default";
+    fahrenheit.style.color = "blue";
+    fahrenheit.style.cursor = "pointer";
+  } else {
+    celsius.style.color = "blue";
+    celsius.style.cursor = "pointer";
+    fahrenheit.style.color = "darkgray";
+    fahrenheit.style.cursor = "default";
+  }
+}
+//Current Location
+function getCity(response) {
+  //console.log(response);
+  city.innerHTML = response.data[0].name;
+}
+
+function retrievePosition(position) {
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+  let apiKey = "8b5dee79ecf0c909b3e67b3b6230efa2";
+  let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+  let reverseUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=5&APPID=${apiKey}`;
+  axios.get(url).then(showTemp);
+  axios.get(reverseUrl).then(getCity);
+  let searchText = document.querySelector("#search-text");
+  searchText.value = "";
+}
+function getCurrentPosition(event) {
+  navigator.geolocation.getCurrentPosition(retrievePosition);
+}
+let currentLocationElement = document.querySelector("#current-location-btn");
+currentLocationElement.addEventListener("click", getCurrentPosition);
