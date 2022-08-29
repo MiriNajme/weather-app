@@ -165,3 +165,8 @@ hr {
 #city {
   text-transform: capitalize;
 }
+footer {
+  padding-left: 0px !important;
+  display: block !important;
+  border-width: 0px !important;
+}
