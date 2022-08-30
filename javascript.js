@@ -20,17 +20,6 @@ function currentTime() {
 let time = document.querySelector("#current-time");
 time.innerHTML = currentTime();
 
-// Searching for a city
-// function showCity(event) {
-//   event.preventDefault();
-
-//   if (searchText.value) {
-//     city.innerHTML = city;
-
-//     //degree.innerHTML = Math.floor(Math.random() * (20 - -10 + 1)) + -10;
-
-//   }
-// }
 function showTemp(response) {
   let temperature = Math.round(response.data.main.temp);
 
@@ -43,7 +32,7 @@ function showTemp(response) {
   description.innerHTML = response.data.weather[0].description;
   let icon = document.querySelector("#weather-icon");
   window.city = document.querySelector("#city");
-  city.innerHTML = response.data.name;
+
   icon.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.weather[0].icon}.png`
@@ -53,6 +42,9 @@ function showTemp(response) {
     toFahrenheit();
   }
   time.innerHTML = currentTime();
+  if (locationFlag === "search") {
+    city.innerHTML = response.data.name;
+  }
 }
 let lowDegree = document.querySelector("span.low-degree");
 let highDegree = document.querySelector("span.high-degree");
@@ -60,6 +52,7 @@ let form = document.querySelector("#weather-form");
 let apiKey = "8b5dee79ecf0c909b3e67b3b6230efa2";
 form.addEventListener("submit", function (event) {
   event.preventDefault();
+  locationFlag = "search";
   let searchText = document.querySelector("#search-text");
   if (searchText.value) {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${searchText.value}&units=metric&APPID=${apiKey}`;
@@ -119,6 +112,7 @@ function flagChanged() {
   }
 }
 //Current Location
+let locationFlag = "";
 function getCity(response) {
   city.innerHTML = response.data[0].name;
 }
@@ -129,23 +123,16 @@ function retrievePosition(position) {
   let apiKey = "8b5dee79ecf0c909b3e67b3b6230efa2";
   let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
   let reverseUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=5&APPID=${apiKey}`;
-  // const requestOne = axios.get(url);
-  // const requestTwo = axios.get(reverseUrl);
-  // axios.all([requestOne, requestTwo]).then(
-  //   axios.spread((...responses) => {
-  //     showTemp(response[0]);
-  //     getCity(response[1]);
-  //   })
-  // );
 
-  axios.get(url).then(showTemp);
   axios.get(reverseUrl).then(getCity);
-  //  axios.all([axios.get(url), axios.get(reverseUrl)]).then(showTemp, getCity);
+  axios.get(url).then(showTemp);
+
   let searchText = document.querySelector("#search-text");
   searchText.value = "";
   time.innerHTML = currentTime();
 }
 function getCurrentPosition(event) {
+  locationFlag = "current";
   navigator.geolocation.getCurrentPosition(retrievePosition);
 }
 let currentLocationElement = document.querySelector("#current-location-btn");
