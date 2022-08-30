@@ -1,51 +1,71 @@
-let now = new Date();
-let days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-let time = document.querySelector("#current-time");
-let day = days[now.getDay()];
-let hour = now.getHours().toString().padStart(2, "0");
-let minute = now.getMinutes().toString().padStart(2, "0");
+function currentTime() {
+  let now = new Date();
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let time = document.querySelector("#current-time");
+  let day = days[now.getDay()];
+  let hour = now.getHours().toString().padStart(2, "0");
+  let minute = now.getMinutes().toString().padStart(2, "0");
 
-time.innerHTML = `${day} ${hour}:${minute}`;
+  return `${day} ${hour}:${minute}`;
+}
+
+let time = document.querySelector("#current-time");
+time.innerHTML = currentTime();
 
 // Searching for a city
-function showCity(event) {
-  event.preventDefault();
-  let searchText = document.querySelector("#search-text");
-  let city = document.querySelector("#city");
+// function showCity(event) {
+//   event.preventDefault();
 
-  if (searchText.value) {
-    city.innerHTML = searchText.value;
+//   if (searchText.value) {
+//     city.innerHTML = city;
 
-    //degree.innerHTML = Math.floor(Math.random() * (20 - -10 + 1)) + -10;
-    let apiKey = "8b5dee79ecf0c909b3e67b3b6230efa2";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${searchText.value}&units=metric&APPID=${apiKey}`;
-    axios.get(apiUrl).then(showTemp);
-  }
-}
+//     //degree.innerHTML = Math.floor(Math.random() * (20 - -10 + 1)) + -10;
+
+//   }
+// }
 function showTemp(response) {
   let temperature = Math.round(response.data.main.temp);
+
   let degree = document.querySelector("#current-degree");
   degree.innerHTML = temperature;
   //console.log(response);
   lowDegree.innerHTML = Math.round(response.data.main.temp_min);
   highDegree.innerHTML = Math.round(response.data.main.temp_max);
+  let description = document.querySelector("#weather-description");
+  description.innerHTML = response.data.weather[0].description;
+  let icon = document.querySelector("#weather-icon");
+  window.city = document.querySelector("#city");
+  city.innerHTML = response.data.name;
+  icon.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.weather[0].icon}.png`
+  );
   if (flag !== "celsius") {
     flag = "celsius";
     toFahrenheit();
   }
+  time.innerHTML = currentTime();
 }
 let lowDegree = document.querySelector("span.low-degree");
 let highDegree = document.querySelector("span.high-degree");
 let form = document.querySelector("#weather-form");
-form.addEventListener("submit", showCity);
+let apiKey = "8b5dee79ecf0c909b3e67b3b6230efa2";
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  let searchText = document.querySelector("#search-text");
+  if (searchText.value) {
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${searchText.value}&units=metric&APPID=${apiKey}`;
+    axios.get(apiUrl).then(showTemp);
+  }
+});
 
 //Changing Celsius to Fahrenheit and viceversa
 
@@ -100,7 +120,6 @@ function flagChanged() {
 }
 //Current Location
 function getCity(response) {
-  //console.log(response);
   city.innerHTML = response.data[0].name;
 }
 
@@ -110,10 +129,21 @@ function retrievePosition(position) {
   let apiKey = "8b5dee79ecf0c909b3e67b3b6230efa2";
   let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
   let reverseUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=5&APPID=${apiKey}`;
+  // const requestOne = axios.get(url);
+  // const requestTwo = axios.get(reverseUrl);
+  // axios.all([requestOne, requestTwo]).then(
+  //   axios.spread((...responses) => {
+  //     showTemp(response[0]);
+  //     getCity(response[1]);
+  //   })
+  // );
+
   axios.get(url).then(showTemp);
   axios.get(reverseUrl).then(getCity);
+  //  axios.all([axios.get(url), axios.get(reverseUrl)]).then(showTemp, getCity);
   let searchText = document.querySelector("#search-text");
   searchText.value = "";
+  time.innerHTML = currentTime();
 }
 function getCurrentPosition(event) {
   navigator.geolocation.getCurrentPosition(retrievePosition);
