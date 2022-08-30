@@ -28,7 +28,7 @@
     
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body onload="currentTime()">
+  <body>
     <div class="container">
       <div class="card">
         <div class="card-body">
@@ -53,8 +53,10 @@
             </div>
             <div class="row my-3">
               <div class="col-sm col-sm-5 weather-icon">
-                <i class="fa fa-snowflake"> </i>
-                <span>snowy</span>
+                <!-- <div id="weather-icon"></div> -->
+                <img src="" id="weather-icon"/>
+                <!-- <i class="fa fa-snowflake"> </i> -->
+                <span id="weather-description">snowy</span>
               </div>
               <div class="col-sm col-sm-4 city">
                 <h1 class="position-relative">
@@ -146,7 +148,7 @@
           </form>
         </div>
       </div>
-      <footer class="card"><a href="https://github.com/NajmehMiri/weather-app">Open-source code </a><span>by Najmeh Miri</span></footer>
+      <footer class="card"><a href="https://github.com/NajmehMiri/weather-app" target="_blank">Open-source code </a><span>by Najmeh Miri</span></footer>
     </div>
     <script type="text/javascript" src="javascript.js"></script>
   </body>
