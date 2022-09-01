@@ -165,6 +165,20 @@ hr {
 #city {
   text-transform: capitalize;
 }
+.clicked {
+  color: black;
+  cursor: default;
+}
+#celsius:focus,
+#celsius:active,
+#fahrenheit:focus,
+#fahrenheit:active {
+  text-decoration: none;
+  color: black;
+}
+.clicked:hover {
+  color: black;
+}
 footer {
   padding-left: 0px !important;
   display: block !important;

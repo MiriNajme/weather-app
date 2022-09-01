@@ -21,26 +21,29 @@ let time = document.querySelector("#current-time");
 time.innerHTML = currentTime();
 
 function showTemp(response) {
-  let temperature = Math.round(response.data.main.temp);
+  celsiusTemp = Math.round(response.data.main.temp);
 
   let degree = document.querySelector("#current-degree");
-  degree.innerHTML = temperature;
+  degree.innerHTML = celsiusTemp;
   //console.log(response);
-  lowDegree.innerHTML = Math.round(response.data.main.temp_min);
-  highDegree.innerHTML = Math.round(response.data.main.temp_max);
+  lowCelsiusTemp = Math.round(response.data.main.temp_min);
+  lowDegree.innerHTML = lowCelsiusTemp;
+  highCelsiusTemp = Math.round(response.data.main.temp_max);
+  highDegree.innerHTML = highCelsiusTemp;
   let description = document.querySelector("#weather-description");
   description.innerHTML = response.data.weather[0].description;
   let icon = document.querySelector("#weather-icon");
   window.city = document.querySelector("#city");
+  if (celsiusLink.className !== "clicked") {
+    fahrenheitLink.classList.remove("clicked");
+    celsiusLink.classList.add("clicked");
+  }
 
   icon.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.weather[0].icon}.png`
   );
-  if (flag !== "celsius") {
-    flag = "celsius";
-    toFahrenheit();
-  }
+
   time.innerHTML = currentTime();
   if (locationFlag === "search") {
     city.innerHTML = response.data.name;
@@ -63,56 +66,34 @@ form.addEventListener("submit", function (event) {
 //Changing Celsius to Fahrenheit and viceversa
 
 function toFahrenheit(event) {
-  if (!!event) {
-    event.preventDefault();
-  }
-
-  if (flag !== "far") {
-    currentDegree.innerHTML = Math.round(currentDegree.innerHTML * 1.8 + 32);
-    lowDegree.innerHTML = Math.round(lowDegree.innerHTML * 1.8 + 32);
-    highDegree.innerHTML = Math.round(highDegree.innerHTML * 1.8 + 32);
-    flag = "far";
-    flagChanged();
-  }
+  event.preventDefault();
+  celsiusLink.classList.remove("clicked");
+  fahrenheitLink.classList.add("clicked");
+  currentDegree.innerHTML = Math.round(celsiusTemp * 1.8 + 32);
+  lowDegree.innerHTML = Math.round(lowCelsiusTemp * 1.8 + 32);
+  highDegree.innerHTML = Math.round(highCelsiusTemp * 1.8 + 32);
 }
 function toCelsius(event) {
-  if (!!event) {
-    event.preventDefault();
-  }
-
-  if (flag !== "celsius") {
-    currentDegree.innerHTML = Math.round(
-      ((currentDegree.innerHTML - 32) * 5) / 9
-    );
-    lowDegree.innerHTML = Math.round(((lowDegree.innerHTML - 32) * 5) / 9);
-    highDegree.innerHTML = Math.round(((highDegree.innerHTML - 32) * 5) / 9);
-    flag = "celsius";
-    flagChanged();
-  }
+  event.preventDefault();
+  fahrenheitLink.classList.remove("clicked");
+  celsiusLink.classList.add("clicked");
+  currentDegree.innerHTML = celsiusTemp;
+  lowDegree.innerHTML = lowCelsiusTemp;
+  highDegree.innerHTML = highCelsiusTemp;
 }
-let celsius = document.querySelector("#celsius");
-celsius.addEventListener("click", toCelsius);
-let fahrenheit = document.querySelector("#fahrenheit");
-fahrenheit.addEventListener("click", toFahrenheit);
+
+let celsiusLink = document.querySelector("#celsius");
+celsiusLink.addEventListener("click", toCelsius);
+let fahrenheitLink = document.querySelector("#fahrenheit");
+fahrenheitLink.addEventListener("click", toFahrenheit);
 let currentDegree = document.querySelector("#current-degree");
-let flag = "celsius";
-flagChanged();
+let celsiusTemp = "";
+let lowCelsiusTemp = "";
+let highCelsiusTemp = "";
 
-function flagChanged() {
-  if (flag === "celsius") {
-    celsius.style.color = "darkgray";
-    celsius.style.cursor = "default";
-    fahrenheit.style.color = "blue";
-    fahrenheit.style.cursor = "pointer";
-  } else {
-    celsius.style.color = "blue";
-    celsius.style.cursor = "pointer";
-    fahrenheit.style.color = "darkgray";
-    fahrenheit.style.cursor = "default";
-  }
-}
 //Current Location
 let locationFlag = "";
+getCurrentPosition(); //To have the current position's temperature onload
 function getCity(response) {
   city.innerHTML = response.data[0].name;
 }
