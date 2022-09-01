@@ -24,15 +24,14 @@
       src="https://kit.fontawesome.com/1feb140e61.js"
       crossorigin="anonymous"
     ></script>
-    
-    
+
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="container">
       <div class="card">
         <div class="card-body">
-          <form id="weather-form"> 
+          <form id="weather-form">
             <div class="row">
               <div class="input-group col-sm-8">
                 <input
@@ -42,45 +41,70 @@
                   id="search-text"
                 />
                 <div class="input-group-btn">
-                  <button class="btn btn-default" type="submit" id="search-button" value="">
+                  <button
+                    class="btn btn-default"
+                    type="submit"
+                    id="search-button"
+                    value=""
+                  >
                     <i class="glyphicon glyphicon-search"></i>
                   </button>
                 </div>
               </div>
-              <button type="button" class="btn btn-secondary col-sm-3" id="current-location-btn">
+              <button
+                type="button"
+                class="btn btn-secondary col-sm-3"
+                id="current-location-btn"
+              >
                 Current Location
               </button>
             </div>
-            <div class="row my-3">
-              <div class="col-sm col-sm-5 weather-icon">
-                <!-- <div id="weather-icon"></div> -->
-                <img src="" id="weather-icon"/>
-                <!-- <i class="fa fa-snowflake"> </i> -->
-                <span id="weather-description">snowy</span>
-              </div>
+            <div class="row my-3 padding-left">
               <div class="col-sm col-sm-4 city">
-                <h1 class="position-relative">
-                  <span class="px-1" id="current-degree">-10</span> <small><a href="#" id="celsius" class="clicked">°C</a>|<a href="#" id="fahrenheit">°F</a></small>
-                  <br />
-                  <span class="px-1" id="city"></span>
-                </h1>
-                <small class="text-muted px-2" id="current-time">14:00 Monday 2022-03-11</small>
+                <ul>
+                  <li>
+                    <span id="current-degree"></span>
+                    <small class="degree-units"
+                      ><a href="#" id="celsius" class="clicked">°C </a>|<a
+                        href="#"
+                        id="fahrenheit"
+                      >
+                        °F</a
+                      ></small
+                    >
+                  </li>
+                  <li><h1 id="city"></h1></li>
+                  <li class="text-muted" id="current-time"></li>
+                </ul>
               </div>
-              <div class="col-sm col-sm-3 high-low-temp">
-                <div class="high-temp">
-                  <i class="fa fa-temperature-high"></i>
-                  <span class="high-degree"> -2 </span>
-                  <small class="degree">°C</small>
-                </div>
-                <div class="low-temp">
-                  <i class="fa fa-temperature-low"> </i>
-                  <span class="low-degree"> -14 </span>
-                  <small class="degree">°C</small>
-                </div>
+              <div class="col-sm col-sm-3 weather-icon">
+                <ul>
+                  <li><img src="" id="weather-icon" /></li>
+                  <li class="text-muted" id="weather-description">
+                    Description:
+                  </li>
+                  <li class="text-muted">
+                    Wind speed: <span id="wind-speed"></span>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-sm col-sm-5 high-low-temp">
+                <ul>
+                  <li class="high-temp">
+                    <i class="fa fa-temperature-high"></i>
+                    <span class="high-degree"></span>
+                    <small class="unit" id="temp-unit-high"></small>
+                  </li>
+                  <li class="low-temp">
+                    <i class="fa fa-temperature-low"> </i>
+                    <span class="low-degree"> </span>
+                    <small class="unit" id="temp-unit-low"></small>
+                  </li>
+                </ul>
               </div>
             </div>
             <hr />
-            <div class="row my-5 predict">
+            <!-- <div class="row my-5 predict">
               <h4>5-day forcast</h2>
               <div class="forcast-container col-5">
                 <div class="forcast">
@@ -144,11 +168,15 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </form>
         </div>
       </div>
-      <footer class="card"><a href="https://github.com/NajmehMiri/weather-app" target="_blank">Open-source code </a><span>by Najmeh Miri</span></footer>
+      <footer class="card">
+        <a href="https://github.com/NajmehMiri/weather-app" target="_blank"
+          >Open-source code </a
+        ><span>by Najmeh Miri</span>
+      </footer>
     </div>
     <script type="text/javascript" src="javascript.js"></script>
   </body>

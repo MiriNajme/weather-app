@@ -21,11 +21,15 @@ let time = document.querySelector("#current-time");
 time.innerHTML = currentTime();
 
 function showTemp(response) {
+  console.log(response);
   celsiusTemp = Math.round(response.data.main.temp);
 
   let degree = document.querySelector("#current-degree");
+
+  let windSpeed = document.querySelector("#wind-speed");
+  windSpeed.innerHTML = Math.round(response.data.wind.speed) + " m/s";
   degree.innerHTML = celsiusTemp;
-  //console.log(response);
+
   lowCelsiusTemp = Math.round(response.data.main.temp_min);
   lowDegree.innerHTML = lowCelsiusTemp;
   highCelsiusTemp = Math.round(response.data.main.temp_max);
@@ -39,6 +43,8 @@ function showTemp(response) {
     celsiusLink.classList.add("clicked");
   }
 
+  tempUnitHigh.innerHTML = "°C";
+  tempUnitLow.innerHTML = "°C";
   icon.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.weather[0].icon}.png`
@@ -64,6 +70,8 @@ form.addEventListener("submit", function (event) {
 });
 
 //Changing Celsius to Fahrenheit and viceversa
+let tempUnitHigh = document.querySelector("#temp-unit-high");
+let tempUnitLow = document.querySelector("#temp-unit-low");
 
 function toFahrenheit(event) {
   event.preventDefault();
@@ -72,6 +80,8 @@ function toFahrenheit(event) {
   currentDegree.innerHTML = Math.round(celsiusTemp * 1.8 + 32);
   lowDegree.innerHTML = Math.round(lowCelsiusTemp * 1.8 + 32);
   highDegree.innerHTML = Math.round(highCelsiusTemp * 1.8 + 32);
+  tempUnitHigh.innerHTML = "°F";
+  tempUnitLow.innerHTML = "°F";
 }
 function toCelsius(event) {
   event.preventDefault();
@@ -80,6 +90,8 @@ function toCelsius(event) {
   currentDegree.innerHTML = celsiusTemp;
   lowDegree.innerHTML = lowCelsiusTemp;
   highDegree.innerHTML = highCelsiusTemp;
+  tempUnitHigh.innerHTML = "°C";
+  tempUnitLow.innerHTML = "°C";
 }
 
 let celsiusLink = document.querySelector("#celsius");
