@@ -1,14 +1,5 @@
 function currentTime() {
   let now = new Date();
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
   let time = document.querySelector("#current-time");
   let day = days[now.getDay()];
   let hour = now.getHours().toString().padStart(2, "0");
@@ -16,12 +7,20 @@ function currentTime() {
 
   return `${day} ${hour}:${minute}`;
 }
-
+let days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 let time = document.querySelector("#current-time");
 time.innerHTML = currentTime();
 
 function showTemp(response) {
-  console.log(response);
+  // console.log(response);
   celsiusTemp = Math.round(response.data.main.temp);
 
   let degree = document.querySelector("#current-degree");
@@ -54,6 +53,8 @@ function showTemp(response) {
   if (locationFlag === "search") {
     city.innerHTML = response.data.name;
   }
+  // console.log(response);
+  getForecast(response.data.coord);
 }
 let lowDegree = document.querySelector("span.low-degree");
 let highDegree = document.querySelector("span.high-degree");
@@ -130,3 +131,52 @@ function getCurrentPosition(event) {
 }
 let currentLocationElement = document.querySelector("#current-location-btn");
 currentLocationElement.addEventListener("click", getCurrentPosition);
+
+//5-DAY FORECAST
+function getForecast(coordinate) {
+  let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinate.lat}&lon=${coordinate.lon}&exclude=hourly,minutely&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(showForecast);
+}
+function showForecast(response) {
+  console.log(response);
+  let forecast = document.querySelector("#forecast");
+  let forecastHTML = "";
+  let currentDay = new Date();
+  const dayToMilisecond = 24 * 60 * 60 * 1000;
+  for (let i = 0; i < 5; i++) {
+    currentDay = new Date(
+      currentDay.getMilliseconds() + (i + 1) * dayToMilisecond
+    );
+    let dayNumber = currentDay.getDay();
+    console.log(dayNumber, currentDay);
+    forecastHTML += `<div class="d-flex flex-row">
+                  <div class="col-2 d-flex align-items-center">${
+                    days[dayNumber]
+                  }</div>
+                  <div class="col-2">
+                    <img
+                      src="http://openweathermap.org/img/wn/${
+                        response.data.daily[i].weather[0].icon
+                      }.png"
+                      id="weather-icon"
+                      alt=""
+                      width="42px"
+                    />
+                  </div>
+                  <div class="col-2 d-flex align-items-center">
+                    <span class="forcast-degree">${Math.round(
+                      response.data.daily[i].temp.min
+                    )}</span>
+                    <div class="forcast-bar">
+                      <div style="left: 25%"></div>
+                    </div>
+                    <span class="forcast-degree">${Math.round(
+                      response.data.daily[i].temp.max
+                    )}</span>
+                  </div>
+                </div>`;
+  }
+
+  forecast.innerHTML = forecastHTML;
+}
