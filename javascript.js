@@ -28,11 +28,6 @@ function showTemp(response) {
   let windSpeed = document.querySelector("#wind-speed");
   windSpeed.innerHTML = Math.round(response.data.wind.speed) + " m/s";
   degree.innerHTML = celsiusTemp;
-
-  lowCelsiusTemp = Math.round(response.data.main.temp_min);
-  lowDegree.innerHTML = lowCelsiusTemp;
-  highCelsiusTemp = Math.round(response.data.main.temp_max);
-  highDegree.innerHTML = highCelsiusTemp;
   let description = document.querySelector("#weather-description");
   description.innerHTML = response.data.weather[0].description;
   let icon = document.querySelector("#weather-icon");
@@ -137,6 +132,7 @@ function getForecast(coordinate) {
   let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinate.lat}&lon=${coordinate.lon}&exclude=hourly,minutely&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(showForecast);
+  axios.get(apiUrl).then(getCurrentDayMinMaxTemp);
 }
 function formatDay(timestamp) {
   let date = new Date(timestamp * 1000);
@@ -144,12 +140,18 @@ function formatDay(timestamp) {
   return days[day];
 }
 function showForecast(response) {
+  console.log(response);
   let forecast = document.querySelector("#forecast");
   let dailyForecast = response.data.daily;
   console.log(dailyForecast);
   let forecastHTML = "";
   dailyForecast.forEach(function (forecastDay, index) {
-    if (index < 5) {
+    if (index === 0) {
+      lowCelsiusTemp = Math.round(forecastDay.temp.min);
+      highCelsiusTemp = Math.round(forecastDay.temp.max);
+      document.querySelector(".high-degree").innerHTML = highCelsiusTemp;
+      document.querySelector(".low-degree").innerHTML = lowCelsiusTemp;
+    } else if (index < 6) {
       forecastHTML += `<div class="col-2 forecast-details">
                     <div class="weather-forecast-date">${formatDay(
                       forecastDay.dt
