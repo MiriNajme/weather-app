@@ -138,45 +138,41 @@ function getForecast(coordinate) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinate.lat}&lon=${coordinate.lon}&exclude=hourly,minutely&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(showForecast);
 }
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  return days[day];
+}
 function showForecast(response) {
-  console.log(response);
   let forecast = document.querySelector("#forecast");
+  let dailyForecast = response.data.daily;
+  console.log(dailyForecast);
   let forecastHTML = "";
-  let currentDay = new Date();
-  const dayToMilisecond = 24 * 60 * 60 * 1000;
-  for (let i = 0; i < 5; i++) {
-    currentDay = new Date(
-      currentDay.getMilliseconds() + (i + 1) * dayToMilisecond
-    );
-    let dayNumber = currentDay.getDay();
-    console.log(dayNumber, currentDay);
-    forecastHTML += `<div class="d-flex flex-row">
-                  <div class="col-2 d-flex align-items-center">${
-                    days[dayNumber]
-                  }</div>
-                  <div class="col-2">
+  dailyForecast.forEach(function (forecastDay, index) {
+    if (index < 5) {
+      forecastHTML += `<div class="col-2 forecast-details">
+                    <div class="weather-forecast-date">${formatDay(
+                      forecastDay.dt
+                    )}</div>
                     <img
                       src="http://openweathermap.org/img/wn/${
-                        response.data.daily[i].weather[0].icon
+                        forecastDay.weather[0].icon
                       }.png"
                       id="weather-icon"
                       alt=""
                       width="42px"
                     />
-                  </div>
-                  <div class="col-2 d-flex align-items-center">
-                    <span class="forcast-degree">${Math.round(
-                      response.data.daily[i].temp.min
-                    )}</span>
-                    <div class="forcast-bar">
-                      <div style="left: 25%"></div>
+                    <div class="weather-forecast-temperature">
+                      <span class="weather-forecast-temp-min">${Math.round(
+                        forecastDay.temp.min
+                      )}°</span>
+                      <span class="weather-forecast-temp-max">${Math.round(
+                        forecastDay.temp.max
+                      )}°</span>
                     </div>
-                    <span class="forcast-degree">${Math.round(
-                      response.data.daily[i].temp.max
-                    )}</span>
-                  </div>
-                </div>`;
-  }
+                  </div>`;
+    }
+  });
 
   forecast.innerHTML = forecastHTML;
 }
