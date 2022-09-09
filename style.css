@@ -180,13 +180,6 @@ footer {
   justify-content: space-around;
 }
 
-nt-size: 8px;
-  position: absolute;
-  top: 0px;
-  right: -2px;
-  content: "o";
-} */
-
 .forecast-row {
   color: black;
 }

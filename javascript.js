@@ -78,6 +78,15 @@ function toFahrenheit(event) {
   highDegree.innerHTML = Math.round(highCelsiusTemp * 1.8 + 32);
   tempUnitHigh.innerHTML = "°F";
   tempUnitLow.innerHTML = "°F";
+  let allForecasttemps = document.querySelectorAll(
+    ".weather-forecast-temperature"
+  );
+  allForecasttemps.forEach(function (item, i) {
+    item.querySelector(".weather-forecast-temp-min").innerHTML =
+      Math.round(forecastTemps[i].min * 1.8 + 32) + "°";
+    item.querySelector(".weather-forecast-temp-max").innerHTML =
+      Math.round(forecastTemps[i].max * 1.8 + 32) + "°";
+  });
 }
 function toCelsius(event) {
   event.preventDefault();
@@ -88,6 +97,15 @@ function toCelsius(event) {
   highDegree.innerHTML = highCelsiusTemp;
   tempUnitHigh.innerHTML = "°C";
   tempUnitLow.innerHTML = "°C";
+  let allForecasttemps = document.querySelectorAll(
+    ".weather-forecast-temperature"
+  );
+  allForecasttemps.forEach(function (item, i) {
+    item.querySelector(".weather-forecast-temp-min").innerHTML =
+      forecastTemps[i].min + "°";
+    item.querySelector(".weather-forecast-temp-max").innerHTML =
+      forecastTemps[i].max + "°";
+  });
 }
 
 let celsiusLink = document.querySelector("#celsius");
@@ -96,8 +114,6 @@ let fahrenheitLink = document.querySelector("#fahrenheit");
 fahrenheitLink.addEventListener("click", toFahrenheit);
 let currentDegree = document.querySelector("#current-degree");
 let celsiusTemp = "";
-let lowCelsiusTemp = "";
-let highCelsiusTemp = "";
 
 //Current Location
 let locationFlag = "";
@@ -152,6 +168,12 @@ function showForecast(response) {
       document.querySelector(".high-degree").innerHTML = highCelsiusTemp;
       document.querySelector(".low-degree").innerHTML = lowCelsiusTemp;
     } else if (index < 6) {
+      let lowCelsiusForecastTemp = Math.round(forecastDay.temp.min);
+      let highCelsiusForecastTemp = Math.round(forecastDay.temp.max);
+      forecastTemps.push({
+        min: lowCelsiusForecastTemp,
+        max: highCelsiusForecastTemp,
+      });
       forecastHTML += `<div class="col-2 forecast-details">
                     <div class="weather-forecast-date">${formatDay(
                       forecastDay.dt
@@ -165,12 +187,8 @@ function showForecast(response) {
                       width="42px"
                     />
                     <div class="weather-forecast-temperature">
-                      <span class="weather-forecast-temp-min">${Math.round(
-                        forecastDay.temp.min
-                      )}°</span>
-                      <span class="weather-forecast-temp-max">${Math.round(
-                        forecastDay.temp.max
-                      )}°</span>
+                      <span class="weather-forecast-temp-min">${lowCelsiusForecastTemp}°</span>
+                      <span class="weather-forecast-temp-max">${highCelsiusForecastTemp}°</span>
                     </div>
                   </div>`;
     }
@@ -178,3 +196,7 @@ function showForecast(response) {
 
   forecast.innerHTML = forecastHTML;
 }
+let lowCelsiusTemp = "";
+let highCelsiusTemp = "";
+
+let forecastTemps = [];
