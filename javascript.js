@@ -174,7 +174,7 @@ function showForecast(response) {
         min: lowCelsiusForecastTemp,
         max: highCelsiusForecastTemp,
       });
-      forecastHTML += `<div class="col-2 forecast-details">
+      forecastHTML += `<div class="col-lg-2 forecast-details">
                     <div class="weather-forecast-date">${formatDay(
                       forecastDay.dt
                     )}</div>

@@ -32,8 +32,8 @@
       <div class="card">
         <div class="card-body">
           <form id="weather-form">
-            <div class="row">
-              <div class="input-group col-sm-8">
+            <div class="row mx-0">
+              <div class="input-group col-sm-9">
                 <input
                   type="text"
                   class="form-control"
@@ -51,16 +51,18 @@
                   </button>
                 </div>
               </div>
-              <button
-                type="button"
-                class="btn btn-secondary col-sm-3 current-location-btn"
-                id="current-location-btn"
-              >
-                Current Location
-              </button>
+              <div class="col-sm-3 text-end pe-0">
+                <button
+                  type="button"
+                  class="btn btn-secondary current-location-btn"
+                  id="current-location-btn"
+                >
+                  Current Location
+                </button>
+              </div>
             </div>
-            <div class="row my-3 padding-left">
-              <div class="col-sm col-sm-4 city">
+            <div class="row my-3 mx-0">
+              <div class="col-sm-4 city ps-0">
                 <ul>
                   <li>
                     <span id="current-degree"></span>
@@ -77,7 +79,7 @@
                   <li class="text-muted" id="current-time"></li>
                 </ul>
               </div>
-              <div class="col-sm col-sm-3 weather-icon">
+              <div class="col-sm-4 weather-icon pe-0">
                 <ul>
                   <li><img src="" id="weather-icon" /></li>
                   <li class="text-muted" id="weather-description">
@@ -88,8 +90,8 @@
                   </li>
                 </ul>
               </div>
-              <div class="col-sm col-sm-5 high-low-temp">
-                <ul>
+              <div class="col-sm-4 high-low-temp">
+                <ul class="d-flex flex-column align-items-end">
                   <li class="high-temp">
                     <i class="fa fa-temperature-high"></i>
                     <span class="high-degree"></span>

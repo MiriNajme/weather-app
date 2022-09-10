@@ -1,9 +1,10 @@
 body {
   padding-top: 30px;
 }
-.input-group {
-  margin-right: 20px;
-}
+/* .text-responsive {
+  font-size: calc(100% + 1vw + 1vh);
+} */
+
 .card {
   padding: 30px 50px;
   max-width: 80%;
@@ -37,7 +38,6 @@ form {
   text-align: left;
   font-size: 22px;
   color: black;
-  padding: 0px;
 }
 .high-low-temp ul {
   padding-left: 5px;
@@ -68,7 +68,7 @@ hr {
   font-size: 14px;
   color: black;
   width: 100%;
-  text-align: left;
+  text-align: center;
 }
 .weather-icon li::first-letter {
   text-transform: uppercase;
@@ -96,7 +96,7 @@ hr {
   display: flex;
   align-items: center;
   width: 60px;
-  padding-top: 10px;
+  padding-top: 15px;
 }
 .high-degree {
   margin-left: 5px;
