@@ -1,10 +1,6 @@
 body {
   padding-top: 30px;
 }
-/* .text-responsive {
-  font-size: calc(100% + 1vw + 1vh);
-} */
-
 .card {
   padding: 30px 50px;
   max-width: 80%;
@@ -14,7 +10,7 @@ body {
   display: block;
   margin: 0 auto;
 }
-form {
+#weather-form {
   margin: 0 50px;
 }
 .current-location-btn {
@@ -130,6 +126,9 @@ hr {
   text-align: left;
   list-style: none;
 }
+.city li:first-child {
+  position: relative;
+}
 .degree-units {
   position: absolute;
   top: 4px;
@@ -213,4 +212,41 @@ footer {
 }
 .padding-left {
   padding-left: 3px;
+}
+@media (min-width: 992px) and (max-width: 1200px) {
+  #current-location-btn {
+    font-size: 12px;
+    height: 40px;
+  }
+}
+@media (max-width: 768px) {
+  .city li {
+    text-align: center;
+  }
+  .weather-icon {
+    margin-top: 10px;
+  }
+  .high-low-temp ul {
+    flex-flow: row !important;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+  li.low-temp {
+    padding-bottom: 15px;
+  }
+}
+@media (max-width: 990px) {
+  .input-text {
+    width: 100%;
+  }
+  #current-location-btn {
+    display: none;
+  }
+  .card {
+    padding: 30px 0px;
+    max-width: 90%;
+  }
+  .card-body {
+    padding: 0px;
+  }
 }
